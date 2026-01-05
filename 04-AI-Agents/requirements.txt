@@ -1,3 +1,6 @@
 crewai
 langchain_groq
 litellm
+coqui-tts
+torchcodec
+langchain_community
