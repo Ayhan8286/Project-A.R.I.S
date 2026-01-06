@@ -92,6 +92,25 @@ services:
       - ../07-Control-Center/dashboard:/app
     command: bash -c "pip install streamlit langchain_community crewai && streamlit run app.py"
 
+  prometheus:
+    image: prom/prometheus:latest
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+
+  grafana:
+    image: grafana/grafana:latest
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+
 volumes:
   postgres_data:
   redis_data:
@@ -99,3 +118,5 @@ volumes:
   qdrant_data:
   ollama_data:
   portainer_data:
+  prometheus_data:
+  grafana_data:
