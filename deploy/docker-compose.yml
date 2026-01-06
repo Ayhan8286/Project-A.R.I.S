@@ -89,7 +89,7 @@ services:
       - "8501:8501"
     working_dir: /app
     volumes:
-      - ../07-Control-Center/dashboard:/app
+      - ../src/dashboard:/app
     command: bash -c "pip install streamlit langchain_community crewai && streamlit run app.py"
 
   prometheus:
