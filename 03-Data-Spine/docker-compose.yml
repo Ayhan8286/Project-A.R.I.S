@@ -66,6 +66,7 @@ services:
 
   ollama:
     image: ollama/ollama:latest
+    container_name: gtm_ollama
     restart: always
     ports:
       - "11434:11434"
@@ -89,7 +90,7 @@ services:
     working_dir: /app
     volumes:
       - ../07-Control-Center/dashboard:/app
-    command: bash -c "pip install streamlit && streamlit run app.py"
+    command: bash -c "pip install streamlit langchain_community crewai && streamlit run app.py"
 
 volumes:
   postgres_data:
