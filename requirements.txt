@@ -5,3 +5,4 @@ coqui-tts
 torchcodec
 langchain_community
 streamlit
+redis
