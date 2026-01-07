@@ -110,6 +110,19 @@ python src/utils/test_brain.py
 
 ---
 
+## ⚡ The Synapse (Gateway Service)
+
+The **Gateway Service** acts as the neural bridge between the outside world (like n8n) and the Vector Brain.
+
+*   **URL:** `http://localhost:5000`
+*   **Purpose:** Receives HTTP requests, vectorizes them, and queries Qdrant.
+*   **Endpoint:** `POST /search`
+    ```json
+    { "query": "What is V-List?" }
+    ```
+
+---
+
 ## ❓ Troubleshooting
 
 Run into issues? Check the **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** file for detailed solutions to common problems like port conflicts or Docker errors.
