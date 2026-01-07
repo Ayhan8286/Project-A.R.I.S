@@ -6,3 +6,9 @@ torchcodec
 langchain_community
 streamlit
 redis
+qdrant-client
+langchain
+langchain-huggingface
+sentence-transformers
+requests
+langchain-qdrant

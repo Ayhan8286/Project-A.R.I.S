@@ -90,6 +90,26 @@ Once running, you can access the following services in your browser:
 
 ---
 
+## 🧠 The Brain (Knowledge Base)
+
+The GTM Engine uses **Qdrant** as its long-term memory. You can feed text data into the brain to train your agents.
+
+### Training the Brain
+1.  Add text files to `src/brain_data/`.
+2.  Run the ingestion script:
+    ```bash
+    python src/utils/ingest.py
+    ```
+    *This will load, split, embed, and store your data in Qdrant.*
+
+### Testing the Brain
+To verify the AI can retrieve this information:
+```bash
+python src/utils/test_brain.py
+```
+
+---
+
 ## ❓ Troubleshooting
 
 Run into issues? Check the **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** file for detailed solutions to common problems like port conflicts or Docker errors.

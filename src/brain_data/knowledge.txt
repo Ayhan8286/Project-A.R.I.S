@@ -1,0 +1,6 @@
+V-List is an AI-powered lead generation platform.
+It uses generic scraping and n8n workflows to find potential clients.
+The system stores leads in a PostgreSQL database.
+AI Agents (Jules, Researcher) process these leads to qualify them.
+The GTM Engine is the infrastructure powering V-List.
+It includes components like Ollama (Local Brain), Qdrant (Vector Memory), and Streamlit (Mission Control).
