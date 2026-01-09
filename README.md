@@ -65,6 +65,16 @@ Once running, you can access the following services in your browser:
 
 ---
 
+## 📊 Monitoring (Mission Control)
+
+The **Mission Control Cockpit** is available at `http://localhost:8501`.
+
+*   **System Status:** Real-time uptime checks for n8n, Qdrant, and Ollama.
+*   **Audit Logs:** View the `ai_logs` table from Postgres directly in the UI.
+*   **Chat:** Interact directly with the local Llama 3 model for quick queries.
+
+---
+
 ## 🛠️ How to Develop
 
 ### Repository Structure

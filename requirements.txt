@@ -12,3 +12,5 @@ langchain-huggingface
 sentence-transformers
 requests
 langchain-qdrant
+psycopg2-binary
+pandas

@@ -11,4 +11,5 @@ This directory contains the database schema definitions for the GTM Engine.
 
 1.  **leads:** Stores potential clients and their status.
 2.  **ai_logs:** Records the activities and decisions made by AI agents.
+    *   *Note:* Includes `timestamp` (aliased as `created_at` in dashboard) for audit trails.
 3.  **approval_queue:** Manages tasks that require human intervention before execution.
