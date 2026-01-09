@@ -142,6 +142,13 @@ The **V-List Agent v1** is an n8n workflow that automates the "Lead -> RAG -> Wr
 2.  **RAG (Retrieval):** Asks the **Gateway Service** (`gtm_gateway:5000`) for relevant solutions from the Brain.
 3.  **Writer:** Uses **Ollama** (`gtm_ollama:11434`) to draft a hyper-personalized cold email using the retrieved context.
 4.  **Audit Trail:** Logs the action and result to the `ai_logs` table in **Postgres**.
+5.  **First Contact:** Sends the email via **SMTP** (supports Gmail, Outlook, etc.).
+
+### SMTP Configuration
+To enable email delivery, you must configure your SMTP credentials in n8n:
+1.  Go to n8n Credentials.
+2.  Create a new "SMTP" credential.
+3.  For Gmail: Use `smtp.gmail.com`, port `465` (SSL/TLS), User: `your@gmail.com`, Password: `YOUR_APP_PASSWORD`.
 
 ### Using the Workflow
 1.  Open n8n at `http://localhost:5678`.
