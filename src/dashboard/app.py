@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import psycopg2
 import os
-import time
+import requests
 from langchain_community.llms import Ollama
 
 # Configuration
@@ -10,18 +10,45 @@ DB_HOST = os.environ.get("POSTGRES_HOST", "postgres")
 DB_NAME = os.environ.get("POSTGRES_DB", "n8n_db")
 DB_USER = os.environ.get("POSTGRES_USER", "n8n")
 DB_PASS = os.environ.get("POSTGRES_PASSWORD", "securepassword123")
+N8N_WEBHOOK_URL = "http://n8n:5678/webhook/agent-trigger"
 
 st.set_page_config(
-    page_title="Mission Control",
+    page_title="Mission Control v2.0",
     page_icon="🚀",
     layout="wide",
 )
 
-st.title("🚀 Mission Control")
+st.title("🚀 Mission Control v2.0")
 st.markdown("Monitor your AI agents, infrastructure, and local intelligence services.")
 
-# --- SIDEBAR ---
+# --- SIDEBAR: AGENT STARTER ---
 with st.sidebar:
+    st.header("⚡ Agent Starter (The Front Door)")
+    with st.form("agent_form"):
+        company_name = st.text_input("Company Name", "TechCorp")
+        contact_name = st.text_input("Contact Name", "Sarah")
+        contact_email = st.text_input("Contact Email", "sarah@example.com")
+        pain_point = st.text_area("Pain Point", "spending too much on SDR salaries")
+
+        submitted = st.form_submit_button("🚀 Launch Agent")
+
+        if submitted:
+            payload = {
+                "company": company_name,
+                "contact_name": contact_name,
+                "contact_email": contact_email,
+                "pain_point": pain_point
+            }
+            try:
+                response = requests.post(N8N_WEBHOOK_URL, json=payload)
+                if response.status_code == 200:
+                    st.success("✅ Signal sent to Nervous System (n8n Webhook)!")
+                else:
+                    st.error(f"❌ Failed to trigger agent: {response.text}")
+            except Exception as e:
+                st.error(f"❌ Connection Error: {e}")
+
+    st.markdown("---")
     st.header("🎮 Actions")
     if st.button("🔄 Refresh Data"):
         st.rerun()
@@ -91,9 +118,5 @@ if prompt:
                 llm = Ollama(base_url="http://gtm_ollama:11434", model="llama3")
                 response = llm.invoke(prompt)
                 st.write(response)
-
-                # Optional: Log this interaction to DB if you want
-                # (Code to insert into ai_logs could go here)
-
             except Exception as e:
                 st.error(f"Error communicating with Ollama: {e}")

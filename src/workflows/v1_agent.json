@@ -1,28 +1,19 @@
 {
   "nodes": [
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "agent-trigger",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
       "position": [
         0,
         0
       ],
-      "id": "f65e587e-3020-49e7-ade9-3de0783d8e66",
-      "name": "When clicking ‘Execute workflow’"
-    },
-    {
-      "parameters": {
-        "jsCode": "return [\n  {\n    \"company\": \"TechCorp\",\n    \"contact_name\": \"Sarah\",\n    \"contact_email\": \"sarah@example.com\",\n    \"pain_point\": \"spending too much on SDR salaries\"\n  }\n];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        208,
-        0
-      ],
-      "id": "1aca4fdd-a2d9-46a8-bc52-e551b4e33ff5",
-      "name": "Lead Data"
+      "id": "webhook_trigger_node",
+      "name": "Webhook (Agent Trigger)"
     },
     {
       "parameters": {
@@ -30,13 +21,13 @@
         "url": "http://gtm_gateway:5000/search",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"query\": \"How does V-List help with {{ $json.pain_point }}?\"\n}",
+        "jsonBody": "={\n  \"query\": \"How does V-List help with {{ $json.body.pain_point }}?\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        416,
+        250,
         0
       ],
       "id": "b18ab41e-6666-46dd-81a9-67eea08b6b0d",
@@ -48,13 +39,13 @@
         "url": "http://gtm_ollama:11434/api/generate",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"model\": \"llama3\",\n  \"stream\": false,\n  \"prompt\": \"Write a short cold email to {{ $('Lead Data').item.json.contact_name }} at {{ $('Lead Data').item.json.company }}. They suffer from {{ $('Lead Data').item.json.pain_point }}. Use this solution data: {{ $json.results[0].payload.page_content.replace(/\\n/g, ' ') }}\"\n}",
+        "jsonBody": "={\n  \"model\": \"llama3\",\n  \"stream\": false,\n  \"prompt\": \"Write a short cold email to {{ $('Webhook (Agent Trigger)').item.json.body.contact_name }} at {{ $('Webhook (Agent Trigger)').item.json.body.company }}. They suffer from {{ $('Webhook (Agent Trigger)').item.json.body.pain_point }}. Use this solution data: {{ $json.results[0].payload.page_content.replace(/\\n/g, ' ') }}\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        624,
+        500,
         0
       ],
       "id": "37f60a5a-f874-4027-b4f2-5527a82c4937",
@@ -140,7 +131,7 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        832,
+        750,
         0
       ],
       "id": "e6e00577-b201-445a-84e7-ef461a1d4c7f",
@@ -155,15 +146,15 @@
     {
       "parameters": {
         "fromEmail": "agents@v-list.ai",
-        "toEmail": "={{ $('Lead Data').item.json.contact_email }}",
-        "subject": "Quick question about {{ $('Lead Data').item.json.company }}",
+        "toEmail": "={{ $('Webhook (Agent Trigger)').item.json.body.contact_email }}",
+        "subject": "Quick question about {{ $('Webhook (Agent Trigger)').item.json.body.company }}",
         "text": "={{ $json.result_summary }}",
         "options": {}
       },
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
-        1040,
+        1000,
         0
       ],
       "id": "7878d052-7b2d-4561-9c88-e567f818b28f",
@@ -177,18 +168,7 @@
     }
   ],
   "connections": {
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "Lead Data",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Lead Data": {
+    "Webhook (Agent Trigger)": {
       "main": [
         [
           {
