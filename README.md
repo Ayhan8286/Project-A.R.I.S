@@ -110,6 +110,36 @@ python src/utils/test_brain.py
 
 ---
 
+## ⚡ The Synapse (Gateway Service)
+
+The **Gateway Service** acts as the neural bridge between the outside world (like n8n) and the Vector Brain.
+
+*   **URL:** `http://localhost:5000`
+*   **Purpose:** Receives HTTP requests, vectorizes them, and queries Qdrant.
+*   **Endpoint:** `POST /search`
+    ```json
+    { "query": "What is V-List?" }
+    ```
+
+---
+
+## 🤖 The Autonomous Agent (Workflow)
+
+The **V-List Agent v1** is an n8n workflow that automates the "Lead -> RAG -> Writer -> DB" pipeline.
+
+### How it Works
+1.  **Lead Input:** Receives lead data (Company, Name, Pain Point).
+2.  **RAG (Retrieval):** Asks the **Gateway Service** (`gtm_gateway:5000`) for relevant solutions from the Brain.
+3.  **Writer:** Uses **Ollama** (`gtm_ollama:11434`) to draft a hyper-personalized cold email using the retrieved context.
+4.  **Audit Trail:** Logs the action and result to the `ai_logs` table in **Postgres**.
+
+### Using the Workflow
+1.  Open n8n at `http://localhost:5678`.
+2.  Import the workflow file located at: `src/workflows/v1_agent.json`.
+3.  Execute the workflow to see the agent in action.
+
+---
+
 ## ❓ Troubleshooting
 
 Run into issues? Check the **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** file for detailed solutions to common problems like port conflicts or Docker errors.

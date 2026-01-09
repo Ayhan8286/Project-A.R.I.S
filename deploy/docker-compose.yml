@@ -92,6 +92,18 @@ services:
       - ../src/dashboard:/app
     command: bash -c "pip install streamlit langchain_community crewai && streamlit run app.py"
 
+  gateway:
+    image: python:3.9-slim
+    restart: always
+    ports:
+      - "5000:5000"
+    working_dir: /app
+    volumes:
+      - ../src/gateway:/app
+    environment:
+      - QDRANT_HOST=qdrant
+    command: bash -c "pip install -r requirements.txt && python app.py"
+
   prometheus:
     image: prom/prometheus:latest
     restart: always
